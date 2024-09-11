@@ -1,16 +1,21 @@
-import { IsEmail, IsNotEmpty, Validate } from 'class-validator';
-import { PasswordLength } from 'src/utils/custom-validators';
+import { IsEmail, IsNotEmpty, MinLength } from 'class-validator';
 
 export class CreateUserDto {
-  @IsNotEmpty()
+  @IsNotEmpty({
+    message: 'Name is required',
+  })
   name: string;
 
-  @IsEmail()
+  @IsEmail(
+    {},
+    {
+      message: 'Invalid email address',
+    },
+  )
   email: string;
 
-  @Validate(PasswordLength, {
-    message: 'This user password must be at least 8 characters!',
+  @MinLength(8, {
+    message: 'Password must be at least 8 characters long',
   })
-  @IsNotEmpty()
   password: string;
 }

@@ -9,13 +9,13 @@ import {
   Delete,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { User } from 'src/schemas/user.schema';
-import { AuthGuard } from '../auth/auth.guard';
+import { User } from 'src/database/schemas/user.schema';
+import { AuthGuard } from '../../common/guards/auth.guard';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { Roles } from '../roles/roles.decorator';
-import { Role } from 'src/enums/role.enum';
-import { RolesGuard } from '../roles/roles.guard';
+import { Roles } from '../../common/decorators/roles.decorator';
+import { Role } from 'src/common/enums/role.enum';
+import { RolesGuard } from '../../common/guards/roles.guard';
 
 @Controller('users')
 @UseGuards(AuthGuard, RolesGuard)
@@ -36,7 +36,7 @@ export class UsersController {
 
   @Get(':id')
   async findById(@Param('id') id: string): Promise<User> {
-    return this.usersService.findById(id);
+    return this.usersService.getById(id);
   }
 
   @Put(':id')
