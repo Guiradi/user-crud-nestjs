@@ -34,9 +34,7 @@ export class AuthService {
   }
 
   async register(createUserDto: CreateUserDto): Promise<User> {
-    return this.usersService.create({
-      ...createUserDto,
-      roles: Role.Admin,
-    });
+    const isAdmin = true;
+    return this.usersService.create(createUserDto, isAdmin);
   }
 }

@@ -10,6 +10,7 @@ import { Model } from 'mongoose';
 import { User } from '../../schemas/user.schema';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { Role } from 'src/enums/role.enum';
 
 @Injectable()
 export class UsersService {
@@ -21,10 +22,6 @@ export class UsersService {
     } catch {
       throw new NotFoundException();
     }
-  }
-
-  async register(createUserDto: CreateUserDto): Promise<User> {
-    return this._create(createUserDto);
   }
 
   async findById(id: string): Promise<User | undefined> {
@@ -40,8 +37,15 @@ export class UsersService {
     return this.userModel.find();
   }
 
-  async create(createUserDto: CreateUserDto): Promise<User> {
-    return this._create(createUserDto);
+  async create(createUserDto: CreateUserDto, isAdmin?: boolean): Promise<User> {
+    await this.checkEmail(createUserDto.email);
+    const hashedPassword = await this.hashPassword(createUserDto.password);
+
+    return this.userModel.create({
+      ...createUserDto,
+      password: hashedPassword,
+      roles: isAdmin ? Role.Admin : Role.User,
+    });
   }
 
   async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
@@ -74,16 +78,6 @@ export class UsersService {
     const saltOrRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltOrRounds);
     return hashedPassword;
-  }
-
-  private async _create(createUserDto: CreateUserDto): Promise<User> {
-    await this.checkEmail(createUserDto.email);
-    const hashedPassword = await this.hashPassword(createUserDto.password);
-
-    return this.userModel.create({
-      ...createUserDto,
-      password: hashedPassword,
-    });
   }
 
   private async checkEmail(email: string) {
