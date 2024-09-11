@@ -7,6 +7,7 @@ import { AuthModule } from '../modules/auth/auth.module';
 import { UserModule } from '../modules/users/users.module';
 import { AuthController } from '../modules/auth/auth.controller';
 import { AuthService } from '../modules/auth/auth.service';
+import { UserContextService } from 'src/common/services/user.context.service';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { AuthService } from '../modules/auth/auth.service';
     UserModule,
   ],
   controllers: [AppController, AuthController],
-  providers: [AppService, AuthService],
+  providers: [AppService, AuthService, UserContextService],
+  // exports: [UserContextService],
 })
 export class AppModule {}

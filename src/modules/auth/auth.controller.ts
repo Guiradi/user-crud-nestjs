@@ -1,7 +1,7 @@
 import { Body, Controller, Post, UseFilters } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthDto } from './dto/auth.dto';
-import { CreateUserDto } from '../users/dto/create-user.dto';
+import { CreateUserInputDto } from '../users/dto/create-user-input.dto';
 import { AuthExceptionFilter } from 'src/common/filters/auth.exception';
 
 @Controller()
@@ -15,7 +15,7 @@ export class AuthController {
   }
 
   @Post('register')
-  register(@Body() createUserDto: CreateUserDto) {
+  register(@Body() createUserDto: CreateUserInputDto) {
     return this.authService.register(createUserDto);
   }
 }

@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { UsersService } from '../users/users.service';
 import { User } from 'src/database/schemas/user.schema';
-import { CreateUserDto } from '../users/dto/create-user.dto';
+import { CreateUserInputDto } from '../users/dto/create-user-input.dto';
 import { NotFoundException } from 'src/common/exceptions/notfound.exception';
 import { UnauthorizedException } from 'src/common/exceptions/unauthorized.exception';
 
@@ -34,8 +34,7 @@ export class AuthService {
     };
   }
 
-  async register(createUserDto: CreateUserDto): Promise<User> {
-    const isAdmin = true;
-    return await this.usersService.create(createUserDto, isAdmin);
+  async register(createUserDto: CreateUserInputDto): Promise<User> {
+    return await this.usersService.register(createUserDto);
   }
 }

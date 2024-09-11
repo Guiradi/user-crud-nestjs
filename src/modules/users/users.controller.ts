@@ -11,7 +11,7 @@ import {
 import { UsersService } from './users.service';
 import { User } from 'src/database/schemas/user.schema';
 import { AuthGuard } from '../../common/guards/auth.guard';
-import { CreateUserDto } from './dto/create-user.dto';
+import { CreateUserInputDto } from './dto/create-user-input.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Roles } from '../../common/decorators/roles.decorator';
 import { Role } from 'src/common/enums/role.enum';
@@ -24,7 +24,7 @@ export class UsersController {
 
   @Post()
   @Roles(Role.Admin)
-  async create(@Body() createUserDto: CreateUserDto): Promise<User> {
+  async create(@Body() createUserDto: CreateUserInputDto): Promise<User> {
     return this.usersService.create(createUserDto);
   }
 

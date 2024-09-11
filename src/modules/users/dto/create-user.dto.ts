@@ -1,21 +1,13 @@
-import { IsEmail, IsNotEmpty, MinLength } from 'class-validator';
+import { IntersectionType } from '@nestjs/mapped-types';
+import { CreateUserInputDto } from './create-user-input.dto';
+import { Role } from 'src/common/enums/role.enum';
+import { User } from 'src/database/schemas/user.schema';
 
-export class CreateUserDto {
-  @IsNotEmpty({
-    message: 'Name is required',
-  })
-  name: string;
-
-  @IsEmail(
-    {},
-    {
-      message: 'Invalid email address',
-    },
-  )
-  email: string;
-
-  @MinLength(8, {
-    message: 'Password must be at least 8 characters long',
-  })
-  password: string;
+export class UserRoleInfoDto {
+  role?: Role;
+  admin?: User;
 }
+export class CreateUserDto extends IntersectionType(
+  CreateUserInputDto,
+  UserRoleInfoDto,
+) {}

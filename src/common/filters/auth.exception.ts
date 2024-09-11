@@ -10,8 +10,8 @@ import { Response } from 'express';
 @Catch(HttpException)
 export class AuthExceptionFilter implements ExceptionFilter {
   catch(exception: HttpException, host: ArgumentsHost) {
-    const ctx = host.switchToHttp();
-    const response = ctx.getResponse<Response>();
+    const context = host.switchToHttp();
+    const response = context.getResponse<Response>();
     const status = HttpStatus.UNAUTHORIZED;
 
     response.status(status).json({
