@@ -19,7 +19,7 @@ export class User {
   @Prop({ required: true })
   password: string;
 
-  @Prop({ default: 'user', enum: ['admin', 'user'] })
+  @Prop({ default: Role.User, enum: Role })
   role: Role;
 
   @Prop({ default: null, type: MongooseSchema.Types.ObjectId })
